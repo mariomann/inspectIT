@@ -16,6 +16,8 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
+import org.codehaus.jackson.annotate.JsonBackReference;
+
 /**
  * The Sensor Type Ident class is the abstract base class for the {@link MethodSensorTypeIdent} and
  * {@link PlatformSensorTypeIdent} and {@link JmxSensorTypeIdent} classes.
@@ -26,7 +28,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(length = 4, name = "DISCRIMINATOR")
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = { "platformIdent", "fullyQualifiedClassName" }))
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = { "platformIdent", "fullyQualifiedClassName" }) )
 public abstract class SensorTypeIdent implements Serializable {
 
 	/**
@@ -47,6 +49,7 @@ public abstract class SensorTypeIdent implements Serializable {
 	 */
 	@ManyToOne
 	@JoinColumn(name = "platformIdent", nullable = false)
+	@JsonBackReference
 	private PlatformIdent platformIdent;
 
 	/**

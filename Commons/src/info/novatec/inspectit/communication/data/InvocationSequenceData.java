@@ -453,7 +453,7 @@ public class InvocationSequenceData extends MethodSensorData {
 	 * 
 	 * @return Cloned invocation sequence.
 	 */
-	public InvocationSequenceData getClonedInvocationSequence() {
+	public InvocationSequenceData cloneWithoutNestedSequences() {
 		InvocationSequenceData clone = new InvocationSequenceData(this.getTimeStamp(), this.getPlatformIdent(), this.getSensorTypeIdent(), this.getMethodIdent());
 		clone.setId(this.getId());
 		clone.setChildCount(this.getChildCount());
