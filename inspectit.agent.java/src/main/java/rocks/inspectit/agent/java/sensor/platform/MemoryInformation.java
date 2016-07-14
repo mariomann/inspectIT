@@ -128,6 +128,25 @@ public class MemoryInformation extends AbstractPlatformSensor implements IPlatfo
 	}
 
 	/**
+	 * Returns the amount of memory that is guaranteed to be available for use by the virtual
+	 * machine for code-cache memory usage.
+	 *
+	 * @return the guaranteed to be available memory for code-cache memory usage.
+	 */
+	public long getCommittedCodeCachMemoryUsage() {
+		return memoryBean.getCodeCacheUsage().getCommitted();
+	}
+
+	/**
+	 * Returns the amount of memory for code-cache memory usage of the virtual machine.
+	 *
+	 * @return the amount of memory for code-cache memory usage.
+	 */
+	public long getUsedCodeCacheMemoryUsage() {
+		return memoryBean.getCodeCacheUsage().getUsed();
+	}
+
+	/**
 	 * Updates all dynamic memory informations.
 	 *
 	 * @param coreService
@@ -142,6 +161,8 @@ public class MemoryInformation extends AbstractPlatformSensor implements IPlatfo
 		long comittedHeapMemorySize = this.getComittedHeapMemorySize();
 		long usedNonHeapMemorySize = this.getUsedNonHeapMemorySize();
 		long comittedNonHeapMemorySize = this.getComittedNonHeapMemoryUsage();
+		long usedCodeCacheMemorySize = this.getUsedCodeCacheMemoryUsage();
+		long committedCodeCacheMemorySize = this.getCommittedCodeCachMemoryUsage();
 
 		MemoryInformationData memoryData = (MemoryInformationData) coreService.getPlatformSensorData(sensorTypeIdent);
 
@@ -181,6 +202,14 @@ public class MemoryInformation extends AbstractPlatformSensor implements IPlatfo
 				memoryData.setMinComittedNonHeapMemorySize(comittedNonHeapMemorySize);
 				memoryData.setMaxComittedNonHeapMemorySize(comittedNonHeapMemorySize);
 
+				memoryData.addCommittedCodeCacheMemorySize(committedCodeCacheMemorySize);
+				memoryData.setMinCommittedCodeCacheMemorySize(committedCodeCacheMemorySize);
+				memoryData.setMaxCommittedCodeCacheMemorySize(committedCodeCacheMemorySize);
+
+				memoryData.addUsedCodeCacheMemorySize(usedCodeCacheMemorySize);
+				memoryData.setMinUsedCodeCacheMemorySize(usedCodeCacheMemorySize);
+				memoryData.setMaxUsedCodeCacheMemorySize(usedCodeCacheMemorySize);
+
 				coreService.addPlatformSensorData(sensorTypeIdent, memoryData);
 			} catch (IdNotAvailableException e) {
 				if (log.isDebugEnabled()) {
@@ -196,6 +225,8 @@ public class MemoryInformation extends AbstractPlatformSensor implements IPlatfo
 			memoryData.addComittedHeapMemorySize(comittedHeapMemorySize);
 			memoryData.addUsedNonHeapMemorySize(usedNonHeapMemorySize);
 			memoryData.addComittedNonHeapMemorySize(comittedNonHeapMemorySize);
+			memoryData.addUsedCodeCacheMemorySize(usedCodeCacheMemorySize);
+			memoryData.addCommittedCodeCacheMemorySize(committedCodeCacheMemorySize);
 
 			if (freePhysMemory < memoryData.getMinFreePhysMemory()) {
 				memoryData.setMinFreePhysMemory(freePhysMemory);
@@ -237,6 +268,16 @@ public class MemoryInformation extends AbstractPlatformSensor implements IPlatfo
 				memoryData.setMinComittedNonHeapMemorySize(comittedNonHeapMemorySize);
 			} else if (comittedNonHeapMemorySize > memoryData.getMaxComittedNonHeapMemorySize()) {
 				memoryData.setMaxComittedNonHeapMemorySize(comittedNonHeapMemorySize);
+			}
+			if (committedCodeCacheMemorySize < memoryData.getMinCommittedCodeCacheMemorySize()) {
+				memoryData.setMinCommittedCodeCacheMemorySize(committedCodeCacheMemorySize);
+			} else if (committedCodeCacheMemorySize > memoryData.getMaxCommittedCodeCacheMemorySize()) {
+				memoryData.setMaxCommittedCodeCacheMemorySize(committedCodeCacheMemorySize);
+			}
+			if (usedCodeCacheMemorySize < memoryData.getMinUsedCodeCacheMemorySize()) {
+				memoryData.setMinUsedCodeCacheMemorySize(usedCodeCacheMemorySize);
+			} else if (usedCodeCacheMemorySize > memoryData.getMaxUsedCodeCacheMemorySize()) {
+				memoryData.setMaxUsedCodeCacheMemorySize(usedCodeCacheMemorySize);
 			}
 		}
 	}

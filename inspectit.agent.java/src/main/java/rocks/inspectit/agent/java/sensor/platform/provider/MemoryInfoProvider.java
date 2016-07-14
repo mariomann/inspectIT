@@ -35,4 +35,17 @@ public interface MemoryInfoProvider {
 	 * @return a {@link MemoryUsage} object representing the non-heap memory usage.
 	 */
 	MemoryUsage getNonHeapMemoryUsage();
+
+	/**
+	 * Returns an estimate of the memory usage of this memory pool. This method returns null if this
+	 * memory pool is not valid (i.e. no longer exists). This method requests the Java virtual
+	 * machine to make a best-effort estimate of the current memory usage of this memory pool. For
+	 * some memory pools, this method may be an expensive operation that requires some computation
+	 * to determine the estimate. An implementation should document when this is the case. This
+	 * method is designed for use in monitoring system memory usage and detecting low memory
+	 * condition.
+	 *
+	 * @return a {@link MemoryUsage} object representing the code cache usage.
+	 */
+	MemoryUsage getCodeCacheUsage();
 }

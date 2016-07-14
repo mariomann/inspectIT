@@ -2,7 +2,9 @@ package rocks.inspectit.agent.java.sensor.platform.provider.def;
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
+import java.lang.management.MemoryPoolMXBean;
 import java.lang.management.MemoryUsage;
+import java.util.List;
 
 import rocks.inspectit.agent.java.sensor.platform.provider.MemoryInfoProvider;
 
@@ -21,6 +23,11 @@ public class DefaultMemoryInfoProvider implements MemoryInfoProvider {
 	private MemoryMXBean memoryBean = ManagementFactory.getMemoryMXBean();
 
 	/**
+	 * The MXBean to retrieve memory informations of available memory pools.
+	 */
+	private List<MemoryPoolMXBean> memoryPoolBean = ManagementFactory.getMemoryPoolMXBeans();
+
+	/**
 	 * {@inheritDoc}
 	 */
 	public MemoryUsage getHeapMemoryUsage() {
@@ -34,4 +41,15 @@ public class DefaultMemoryInfoProvider implements MemoryInfoProvider {
 		return memoryBean.getNonHeapMemoryUsage();
 	}
 
+	/**
+	 * {@inheritDoc}}
+	 */
+	public MemoryUsage getCodeCacheUsage() {
+		for (MemoryPoolMXBean item : memoryPoolBean) {
+			if (item.getName().matches("^[cC]ode.[cC]ache$") && item.isValid()) {
+				return item.getUsage();
+			}
+		}
+		return null;
+	}
 }

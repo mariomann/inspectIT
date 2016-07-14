@@ -145,6 +145,39 @@ public class MemoryInformationData extends SystemSensorData implements IAggregat
 	private long totalComittedNonHeapMemorySize = 0;
 
 	/**
+	 * The total amount of memory that is guaranteed to be available for use by the virtual machine
+	 * for code cache usage.
+	 */
+	private long totalCommittedCodeCacheMemorySize = 0;
+
+	/**
+	 * The maximum amount of memory that is guaranteed to be available for use by the virtual
+	 * machine for code cache usage.
+	 */
+	private long maxCommittedCodeCacheMemorySize = 0;
+
+	/**
+	 * The minimum amount of memory that is guaranteed to be available for use by the virtual
+	 * machine for code cache usage.
+	 */
+	private long minCommittedCodeCacheMemorySize = 0;
+
+	/**
+	 * The total amount of memory for code-cache memory usage of the virtual machine.
+	 */
+	private long totalUsedCodeCacheMemorySize = 0;
+
+	/**
+	 * The maximum amount of memory for code-cache memory usage of the virtual machine.
+	 */
+	private long maxUsedCodeCacheMemorySize = 0;
+
+	/**
+	 * The total minimum of memory for code-cache memory usage of the virtual machine.
+	 */
+	private long minUsedCodeCacheMemorySize = 0;
+
+	/**
 	 * Default no-args constructor.
 	 */
 	public MemoryInformationData() {
@@ -660,6 +693,140 @@ public class MemoryInformationData extends SystemSensorData implements IAggregat
 	}
 
 	/**
+	 * adds the given value to the committedCodeCacheMemorySize.
+	 *
+	 * @param committedCodeCacheMemorySize
+	 *            the value to add.
+	 */
+	public void addCommittedCodeCacheMemorySize(long committedCodeCacheMemorySize) {
+		this.totalCommittedCodeCacheMemorySize += committedCodeCacheMemorySize;
+	}
+
+	/**
+	 * Gets {@link #totalCommittedCodeCacheMemorySize}.
+	 *
+	 * @return {@link #totalCommittedCodeCacheMemorySize}
+	 */
+	public long getTotalCommittedCodeCacheMemorySize() {
+		return totalCommittedCodeCacheMemorySize;
+	}
+
+	/**
+	 * Sets {@link #totalCommittedCodeCacheMemorySize}.
+	 *
+	 * @param totalCommittedCodeCacheMemorySize
+	 *            New value for {@link #totalCommittedCodeCacheMemorySize}
+	 */
+	public void setTotalCommittedCodeCacheMemorySize(long totalCommittedCodeCacheMemorySize) {
+		this.totalCommittedCodeCacheMemorySize = totalCommittedCodeCacheMemorySize;
+	}
+
+	/**
+	 * Gets {@link #maxCommittedCodeCacheMemorySize}.
+	 *
+	 * @return {@link #maxCommittedCodeCacheMemorySize}
+	 */
+	public long getMaxCommittedCodeCacheMemorySize() {
+		return maxCommittedCodeCacheMemorySize;
+	}
+
+	/**
+	 * Sets {@link #maxCommittedCodeCacheMemorySize}.
+	 *
+	 * @param maxCommittedCodeCacheMemorySize
+	 *            New value for {@link #maxCommittedCodeCacheMemorySize}
+	 */
+	public void setMaxCommittedCodeCacheMemorySize(long maxCommittedCodeCacheMemorySize) {
+		this.maxCommittedCodeCacheMemorySize = maxCommittedCodeCacheMemorySize;
+	}
+
+	/**
+	 * Gets {@link #minCommittedCodeCacheMemorySize}.
+	 *
+	 * @return {@link #minCommittedCodeCacheMemorySize}
+	 */
+	public long getMinCommittedCodeCacheMemorySize() {
+		return minCommittedCodeCacheMemorySize;
+	}
+
+	/**
+	 * Sets {@link #minCommittedCodeCacheMemorySize}.
+	 *
+	 * @param minCommittedCodeCacheMemorySize
+	 *            New value for {@link #minCommittedCodeCacheMemorySize}
+	 */
+	public void setMinCommittedCodeCacheMemorySize(long minCommittedCodeCacheMemorySize) {
+		this.minCommittedCodeCacheMemorySize = minCommittedCodeCacheMemorySize;
+	}
+
+	/**
+	 * adds the given value to the usedCodeCacheMemorySize.
+	 *
+	 * @param usedCodeCacheMemorySize
+	 *            the value to add.
+	 */
+	public void addUsedCodeCacheMemorySize(long usedCodeCacheMemorySize) {
+		this.totalUsedCodeCacheMemorySize += usedCodeCacheMemorySize;
+	}
+
+	/**
+	 * Gets {@link #totalUsedCodeCacheMemorySize}.
+	 *
+	 * @return {@link #totalUsedCodeCacheMemorySize}
+	 */
+	public long getTotalUsedCodeCacheMemorySize() {
+		return totalUsedCodeCacheMemorySize;
+	}
+
+	/**
+	 * Sets {@link #totalUsedCodeCacheMemorySize}.
+	 *
+	 * @param totalUsedCodeCacheMemorySize
+	 *            New value for {@link #totalUsedCodeCacheMemorySize}
+	 */
+	public void setTotalUsedCodeCacheMemorySize(long totalUsedCodeCacheMemorySize) {
+		this.totalUsedCodeCacheMemorySize = totalUsedCodeCacheMemorySize;
+	}
+
+	/**
+	 * Gets {@link #maxUsedCodeCacheMemorySize}.
+	 *
+	 * @return {@link #maxUsedCodeCacheMemorySize}
+	 */
+	public long getMaxUsedCodeCacheMemorySize() {
+		return maxUsedCodeCacheMemorySize;
+	}
+
+	/**
+	 * Sets {@link #maxUsedCodeCacheMemorySize}.
+	 *
+	 * @param maxUsedCodeCacheMemorySize
+	 *            New value for {@link #maxUsedCodeCacheMemorySize}
+	 */
+	public void setMaxUsedCodeCacheMemorySize(long maxUsedCodeCacheMemorySize) {
+		this.maxUsedCodeCacheMemorySize = maxUsedCodeCacheMemorySize;
+	}
+
+	/**
+	 * Gets {@link #minUsedCodeCacheMemorySize}.
+	 *
+	 * @return {@link #minUsedCodeCacheMemorySize}
+	 */
+	public long getMinUsedCodeCacheMemorySize() {
+		return minUsedCodeCacheMemorySize;
+	}
+
+	/**
+	 * Sets {@link #minUsedCodeCacheMemorySize}.
+	 *
+	 * @param minUsedCodeCacheMemorySize
+	 *            New value for {@link #minUsedCodeCacheMemorySize}
+	 */
+	public void setMinUsedCodeCacheMemorySize(long minUsedCodeCacheMemorySize) {
+		this.minUsedCodeCacheMemorySize = minUsedCodeCacheMemorySize;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	public void aggregate(MemoryInformationData other) {
@@ -692,6 +859,14 @@ public class MemoryInformationData extends SystemSensorData implements IAggregat
 		minUsedNonHeapMemorySize = Math.min(minUsedNonHeapMemorySize, other.minUsedNonHeapMemorySize);
 		maxUsedNonHeapMemorySize = Math.max(maxUsedNonHeapMemorySize, other.maxUsedNonHeapMemorySize);
 		totalUsedNonHeapMemorySize += other.totalUsedNonHeapMemorySize;
+
+		minUsedCodeCacheMemorySize = Math.min(minUsedCodeCacheMemorySize, other.minUsedCodeCacheMemorySize);
+		maxUsedCodeCacheMemorySize = Math.max(maxUsedCodeCacheMemorySize, other.maxUsedCodeCacheMemorySize);
+		totalUsedCodeCacheMemorySize += other.totalUsedCodeCacheMemorySize;
+
+		minCommittedCodeCacheMemorySize = Math.min(minCommittedCodeCacheMemorySize, other.minCommittedCodeCacheMemorySize);
+		maxCommittedCodeCacheMemorySize = Math.max(maxCommittedCodeCacheMemorySize, other.maxCommittedCodeCacheMemorySize);
+		totalCommittedCodeCacheMemorySize += other.totalCommittedCodeCacheMemorySize;
 	}
 
 	/**
@@ -712,24 +887,30 @@ public class MemoryInformationData extends SystemSensorData implements IAggregat
 		result = (prime * result) + (int) (maxComittedHeapMemorySize ^ (maxComittedHeapMemorySize >>> 32));
 		result = (prime * result) + (int) (maxComittedNonHeapMemorySize ^ (maxComittedNonHeapMemorySize >>> 32));
 		result = (prime * result) + (int) (maxComittedVirtualMemSize ^ (maxComittedVirtualMemSize >>> 32));
+		result = (prime * result) + (int) (maxCommittedCodeCacheMemorySize ^ (maxCommittedCodeCacheMemorySize >>> 32));
 		result = (prime * result) + (int) (maxFreePhysMemory ^ (maxFreePhysMemory >>> 32));
 		result = (prime * result) + (int) (maxFreeSwapSpace ^ (maxFreeSwapSpace >>> 32));
 		result = (prime * result) + (int) (maxUsedHeapMemorySize ^ (maxUsedHeapMemorySize >>> 32));
 		result = (prime * result) + (int) (maxUsedNonHeapMemorySize ^ (maxUsedNonHeapMemorySize >>> 32));
+		result = (prime * result) + (int) (maxUsedCodeCacheMemorySize ^ (maxUsedCodeCacheMemorySize >>> 32));
 		result = (prime * result) + (int) (minComittedHeapMemorySize ^ (minComittedHeapMemorySize >>> 32));
 		result = (prime * result) + (int) (minComittedNonHeapMemorySize ^ (minComittedNonHeapMemorySize >>> 32));
 		result = (prime * result) + (int) (minComittedVirtualMemSize ^ (minComittedVirtualMemSize >>> 32));
+		result = (prime * result) + (int) (minCommittedCodeCacheMemorySize ^ (minCommittedCodeCacheMemorySize >>> 32));
 		result = (prime * result) + (int) (minFreePhysMemory ^ (minFreePhysMemory >>> 32));
 		result = (prime * result) + (int) (minFreeSwapSpace ^ (minFreeSwapSpace >>> 32));
 		result = (prime * result) + (int) (minUsedHeapMemorySize ^ (minUsedHeapMemorySize >>> 32));
 		result = (prime * result) + (int) (minUsedNonHeapMemorySize ^ (minUsedNonHeapMemorySize >>> 32));
+		result = (prime * result) + (int) (minUsedCodeCacheMemorySize ^ (minUsedCodeCacheMemorySize >>> 32));
 		result = (prime * result) + (int) (totalComittedHeapMemorySize ^ (totalComittedHeapMemorySize >>> 32));
 		result = (prime * result) + (int) (totalComittedNonHeapMemorySize ^ (totalComittedNonHeapMemorySize >>> 32));
 		result = (prime * result) + (int) (totalComittedVirtualMemSize ^ (totalComittedVirtualMemSize >>> 32));
+		result = (prime * result) + (int) (totalCommittedCodeCacheMemorySize ^ (totalCommittedCodeCacheMemorySize >>> 32));
 		result = (prime * result) + (int) (totalFreePhysMemory ^ (totalFreePhysMemory >>> 32));
 		result = (prime * result) + (int) (totalFreeSwapSpace ^ (totalFreeSwapSpace >>> 32));
 		result = (prime * result) + (int) (totalUsedHeapMemorySize ^ (totalUsedHeapMemorySize >>> 32));
 		result = (prime * result) + (int) (totalUsedNonHeapMemorySize ^ (totalUsedNonHeapMemorySize >>> 32));
+		result = (prime * result) + (int) (totalUsedCodeCacheMemorySize ^ (totalUsedCodeCacheMemorySize >>> 32));
 		return result;
 	}
 
@@ -772,6 +953,12 @@ public class MemoryInformationData extends SystemSensorData implements IAggregat
 		if (maxUsedNonHeapMemorySize != other.maxUsedNonHeapMemorySize) {
 			return false;
 		}
+		if (maxUsedCodeCacheMemorySize != other.maxUsedCodeCacheMemorySize) {
+			return false;
+		}
+		if (maxCommittedCodeCacheMemorySize != other.maxCommittedCodeCacheMemorySize) {
+			return false;
+		}
 		if (minComittedHeapMemorySize != other.minComittedHeapMemorySize) {
 			return false;
 		}
@@ -793,6 +980,12 @@ public class MemoryInformationData extends SystemSensorData implements IAggregat
 		if (minUsedNonHeapMemorySize != other.minUsedNonHeapMemorySize) {
 			return false;
 		}
+		if (minUsedCodeCacheMemorySize != other.minUsedCodeCacheMemorySize) {
+			return false;
+		}
+		if (minCommittedCodeCacheMemorySize != other.minCommittedCodeCacheMemorySize) {
+			return false;
+		}
 		if (totalComittedHeapMemorySize != other.totalComittedHeapMemorySize) {
 			return false;
 		}
@@ -800,6 +993,9 @@ public class MemoryInformationData extends SystemSensorData implements IAggregat
 			return false;
 		}
 		if (totalComittedVirtualMemSize != other.totalComittedVirtualMemSize) {
+			return false;
+		}
+		if (totalCommittedCodeCacheMemorySize != other.totalCommittedCodeCacheMemorySize) {
 			return false;
 		}
 		if (totalFreePhysMemory != other.totalFreePhysMemory) {
@@ -812,6 +1008,9 @@ public class MemoryInformationData extends SystemSensorData implements IAggregat
 			return false;
 		}
 		if (totalUsedNonHeapMemorySize != other.totalUsedNonHeapMemorySize) {
+			return false;
+		}
+		if (totalUsedCodeCacheMemorySize != other.totalUsedCodeCacheMemorySize) {
 			return false;
 		}
 		return true;

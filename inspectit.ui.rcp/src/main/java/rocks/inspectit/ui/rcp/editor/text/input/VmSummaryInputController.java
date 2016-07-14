@@ -209,6 +209,16 @@ public class VmSummaryInputController extends AbstractTextInputController {
 	private Label usedNonHeapMemorySize;
 
 	/**
+	 * The label for committed code cache memory size.
+	 */
+	private Label committedCodeCacheMemorySize;
+
+	/**
+	 * The label for used code cache memory size.
+	 */
+	private Label usedCodeCacheMemorySize;
+
+	/**
 	 * The global data access service.
 	 */
 	private IGlobalDataAccessService dataAccessService;
@@ -339,6 +349,14 @@ public class VmSummaryInputController extends AbstractTextInputController {
 			addItemToSection(toolkit, SECTION_MEMORY, "Used non-heap size: ", minTitleColumnWidth);
 			usedNonHeapMemorySize = toolkit.createLabel(sections.get(SECTION_MEMORY), NOT_AVAILABLE, labelStyle);
 			usedNonHeapMemorySize.setLayoutData(new GridData(minInformationColumnWidth, SWT.DEFAULT));
+
+			addItemToSection(toolkit, SECTION_MEMORY, "Used code-cache size: ", minTitleColumnWidth);
+			usedCodeCacheMemorySize = toolkit.createLabel(sections.get(SECTION_MEMORY), NOT_AVAILABLE, labelStyle);
+			usedCodeCacheMemorySize.setLayoutData(new GridData(minInformationColumnWidth, SWT.DEFAULT));
+
+			addItemToSection(toolkit, SECTION_MEMORY, "Committed code-cache size: ", minTitleColumnWidth);
+			committedCodeCacheMemorySize = toolkit.createLabel(sections.get(SECTION_MEMORY), NOT_AVAILABLE, labelStyle);
+			committedCodeCacheMemorySize.setLayoutData(new GridData(minInformationColumnWidth, SWT.DEFAULT));
 		}
 
 		if (sections.containsKey(SECTION_THREADS)) {
@@ -677,6 +695,16 @@ public class VmSummaryInputController extends AbstractTextInputController {
 					} else {
 						usedNonHeapMemorySize.setText(NOT_AVAILABLE);
 					}
+					if (memoryData.getTotalCommittedCodeCacheMemorySize() > 0) {
+						committedCodeCacheMemorySize.setText(NumberFormatter.formatBytesToKBytes(memoryData.getTotalCommittedCodeCacheMemorySize() / count));
+					} else {
+						committedCodeCacheMemorySize.setText(NOT_AVAILABLE);
+					}
+					if (memoryData.getTotalUsedCodeCacheMemorySize() > 0) {
+						usedCodeCacheMemorySize.setText(NumberFormatter.formatBytesToKBytes(memoryData.getTotalUsedCodeCacheMemorySize() / count));
+					} else {
+						usedCodeCacheMemorySize.setText(NOT_AVAILABLE);
+					}
 				}
 
 				if (runtimeData != null) {
@@ -692,7 +720,7 @@ public class VmSummaryInputController extends AbstractTextInputController {
 				}
 			}
 		}, loadedClassCount, totalLoadedClassCount, unloadedClassCount, processCpuTime, totalCompilationTime, freePhysMemory, freeSwapSpace, committedHeapMemorySize, committedNonHeapMemorySize,
-				usedHeapMemorySize, usedNonHeapMemorySize);
+				usedHeapMemorySize, usedNonHeapMemorySize, committedCodeCacheMemorySize, usedCodeCacheMemorySize);
 	}
 
 	/**
