@@ -8,6 +8,8 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 import rocks.inspectit.shared.cs.cmr.property.configuration.SingleProperty;
 import rocks.inspectit.shared.cs.cmr.property.update.impl.BooleanPropertyUpdate;
 import rocks.inspectit.shared.cs.cmr.property.update.impl.BytePropertyUpdate;
+import rocks.inspectit.shared.cs.cmr.property.update.impl.DoublePropertyUpdate;
+import rocks.inspectit.shared.cs.cmr.property.update.impl.IntegerPropertyUpdate;
 import rocks.inspectit.shared.cs.cmr.property.update.impl.LongPropertyUpdate;
 import rocks.inspectit.shared.cs.cmr.property.update.impl.PercentagePropertyUpdate;
 import rocks.inspectit.shared.cs.cmr.property.update.impl.StringPropertyUpdate;
@@ -21,7 +23,8 @@ import rocks.inspectit.shared.cs.cmr.property.update.impl.StringPropertyUpdate;
  *            Type of property and update value.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlSeeAlso({ StringPropertyUpdate.class, LongPropertyUpdate.class, BooleanPropertyUpdate.class, PercentagePropertyUpdate.class, BytePropertyUpdate.class })
+@XmlSeeAlso({ StringPropertyUpdate.class, LongPropertyUpdate.class, BooleanPropertyUpdate.class, PercentagePropertyUpdate.class, BytePropertyUpdate.class, DoublePropertyUpdate.class,
+		IntegerPropertyUpdate.class })
 public abstract class AbstractPropertyUpdate<V> implements IPropertyUpdate<V> {
 
 	/**

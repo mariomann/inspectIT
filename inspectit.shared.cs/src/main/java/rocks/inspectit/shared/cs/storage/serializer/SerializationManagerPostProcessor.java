@@ -73,6 +73,8 @@ import rocks.inspectit.shared.cs.cmr.property.configuration.GroupedProperty;
 import rocks.inspectit.shared.cs.cmr.property.configuration.PropertySection;
 import rocks.inspectit.shared.cs.cmr.property.configuration.impl.BooleanProperty;
 import rocks.inspectit.shared.cs.cmr.property.configuration.impl.ByteProperty;
+import rocks.inspectit.shared.cs.cmr.property.configuration.impl.DoubleProperty;
+import rocks.inspectit.shared.cs.cmr.property.configuration.impl.IntegerProperty;
 import rocks.inspectit.shared.cs.cmr.property.configuration.impl.LongProperty;
 import rocks.inspectit.shared.cs.cmr.property.configuration.impl.PercentageProperty;
 import rocks.inspectit.shared.cs.cmr.property.configuration.impl.StringProperty;
@@ -91,6 +93,8 @@ import rocks.inspectit.shared.cs.cmr.property.configuration.validator.impl.Posit
 import rocks.inspectit.shared.cs.cmr.property.update.configuration.ConfigurationUpdate;
 import rocks.inspectit.shared.cs.cmr.property.update.impl.BooleanPropertyUpdate;
 import rocks.inspectit.shared.cs.cmr.property.update.impl.BytePropertyUpdate;
+import rocks.inspectit.shared.cs.cmr.property.update.impl.DoublePropertyUpdate;
+import rocks.inspectit.shared.cs.cmr.property.update.impl.IntegerPropertyUpdate;
 import rocks.inspectit.shared.cs.cmr.property.update.impl.LongPropertyUpdate;
 import rocks.inspectit.shared.cs.cmr.property.update.impl.PercentagePropertyUpdate;
 import rocks.inspectit.shared.cs.cmr.property.update.impl.RestoreDefaultPropertyUpdate;
@@ -376,6 +380,12 @@ public class SerializationManagerPostProcessor implements BeanPostProcessor {
 
 		// INSPECTIT-2071
 		kryo.register(JmxSensorConfig.class, new FieldSerializer<JmxSensorConfig>(kryo, JmxSensorConfig.class), nextRegistrationId++);
+
+		// INSPECTIT-2112 CoScale Integration
+		kryo.register(DoubleProperty.class, new FieldSerializer<DoubleProperty>(kryo, DoubleProperty.class), nextRegistrationId++);
+		kryo.register(DoublePropertyUpdate.class, new FieldSerializer<DoublePropertyUpdate>(kryo, DoublePropertyUpdate.class), nextRegistrationId++);
+		kryo.register(IntegerProperty.class, new FieldSerializer<IntegerProperty>(kryo, IntegerProperty.class), nextRegistrationId++);
+		kryo.register(IntegerPropertyUpdate.class, new FieldSerializer<IntegerPropertyUpdate>(kryo, IntegerPropertyUpdate.class), nextRegistrationId++);
 	}
 
 }

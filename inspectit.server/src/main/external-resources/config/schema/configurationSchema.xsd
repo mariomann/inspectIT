@@ -7,7 +7,11 @@
 
   <xs:element name="cmr-configuration" type="configuration"/>
 
+  <xs:element name="double-property" type="doubleProperty"/>
+
   <xs:element name="group-property" type="groupedProperty"/>
+
+  <xs:element name="integer-property" type="integerProperty"/>
 
   <xs:element name="isFullyQualifiedClassName" type="fullyQualifiedClassNameValidator"/>
 
@@ -202,6 +206,26 @@
     </xs:complexContent>
   </xs:complexType>
 
+  <xs:complexType name="doubleProperty">
+    <xs:complexContent>
+      <xs:extension base="singleProperty">
+        <xs:sequence/>
+        <xs:attribute name="used-value" type="xs:double"/>
+        <xs:attribute name="default-value" type="xs:double" use="required"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="integerProperty">
+    <xs:complexContent>
+      <xs:extension base="singleProperty">
+        <xs:sequence/>
+        <xs:attribute name="used-value" type="xs:int"/>
+        <xs:attribute name="default-value" type="xs:int" use="required"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
   <xs:complexType name="groupedProperty">
     <xs:complexContent>
       <xs:extension base="abstractProperty">
@@ -215,6 +239,8 @@
                   <xs:element ref="boolean-property"/>
                   <xs:element ref="percentage-property"/>
                   <xs:element ref="byte-property"/>
+                  <xs:element ref="double-property"/>
+                  <xs:element ref="integer-property"/>
                 </xs:choice>
               </xs:sequence>
             </xs:complexType>
@@ -253,6 +279,8 @@
               <xs:element ref="boolean-property"/>
               <xs:element ref="percentage-property"/>
               <xs:element ref="byte-property"/>
+              <xs:element ref="double-property"/>
+              <xs:element ref="integer-property"/>
               <xs:element ref="group-property"/>
             </xs:choice>
           </xs:sequence>

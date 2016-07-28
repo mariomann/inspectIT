@@ -215,6 +215,93 @@ public abstract class StorageManager {
 	}
 
 	/**
+	 * Compresses the content of the storage data folder to the file. File name is provided via
+	 * given path. If the file already exists, it will be deleted first.
+	 *
+	 * @param storageData
+	 *            {@link StorageData} to zip.
+	 * @param outputStream
+	 *            Output stream to write the zipped bytes to.
+	 * @throws IOException
+	 *             If {@link IOException} occurs during compressing.
+	 * @throws SerializationException
+	 *             If {@link SerializationException} occurs during creation of the local info file.
+	 */
+	public void zipStorageData(IStorageData storageData, final OutputStream outputStream) throws IOException, SerializationException {
+		final Path storageDir = getStoragePath(storageData);
+
+		// check the given directory where the files are
+		if (Files.notExists(storageDir)) {
+			throw new IOException("Can not create zip file. The directory " + storageDir.toString() + " does not exist.");
+		}
+		if (!Files.isDirectory(storageDir)) {
+			throw new IOException("Can not create zip file. Given path " + storageDir.toString() + " is not the directory.");
+		}
+
+		// try with resources
+		try (final ZipOutputStream zos = new ZipOutputStream(outputStream)) {
+			Files.walkFileTree(storageDir, new SimpleFileVisitor<Path>() {
+				@Override
+				public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+					String fileName = storageDir.relativize(file).toString();
+					ZipEntry zipEntry = new ZipEntry(fileName);
+					zos.putNextEntry(zipEntry);
+					Files.copy(file, zos);
+					zos.closeEntry();
+					return FileVisitResult.CONTINUE;
+				}
+			});
+			// add local storage data info
+			if (storageData instanceof StorageData) {
+				LocalStorageData localStorageData = new LocalStorageData((StorageData) storageData);
+				localStorageData.setFullyDownloaded(true);
+				String fileName = localStorageData.getId() + StorageFileType.LOCAL_STORAGE_FILE.getExtension();
+				ZipEntry zipEntry = new ZipEntry(fileName);
+				zos.putNextEntry(zipEntry);
+				serializeDataToOutputStream(localStorageData, zos, false);
+				zos.closeEntry();
+			}
+
+		}
+	}
+
+	/**
+	 * Zips all files in the given directory to the provided output stream.
+	 *
+	 * @param directory
+	 *            Directory where files to be zipped are placed.
+	 * @param outputStream
+	 *            Output stream to write the zipped bytes to.
+	 * @throws IOException
+	 *             If {@link IOException} occurs.
+	 */
+	protected void zipFiles(final Path directory, OutputStream outputStream) throws IOException {
+		// check the given directory where the files are
+		if (Files.notExists(directory)) {
+			throw new IOException("Can not create zip file. The directory " + directory.toString() + " does not exist.");
+		}
+		if (!Files.isDirectory(directory)) {
+			throw new IOException("Can not create zip file. Given path " + directory.toString() + " is not the directory.");
+		}
+
+		// try with resources
+		try (final ZipOutputStream zos = new ZipOutputStream(outputStream)) {
+			Files.walkFileTree(directory, new SimpleFileVisitor<Path>() {
+				@Override
+				public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+					String fileName = directory.relativize(file).toString();
+					ZipEntry zipEntry = new ZipEntry(fileName);
+					zos.putNextEntry(zipEntry);
+					Files.copy(file, zos);
+					zos.closeEntry();
+					return FileVisitResult.CONTINUE;
+				}
+			});
+
+		}
+	}
+
+	/**
 	 * Writes the storage data file to disk (in the default storage directory). If the file already
 	 * exists, it will be deleted.
 	 *
@@ -330,7 +417,6 @@ public abstract class StorageManager {
 				output.close();
 			}
 		}
-
 	}
 
 	/**

@@ -1,0 +1,105 @@
+package rocks.inspectit.ui.rcp.property.control.impl;
+
+import org.apache.commons.lang.StringUtils;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.FocusAdapter;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.VerifyEvent;
+import org.eclipse.swt.events.VerifyListener;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Text;
+
+import rocks.inspectit.shared.cs.cmr.property.configuration.impl.IntegerProperty;
+import rocks.inspectit.ui.rcp.formatter.NumberFormatter;
+import rocks.inspectit.ui.rcp.property.IPropertyUpdateListener;
+import rocks.inspectit.ui.rcp.property.control.AbstractPropertyControl;
+
+/**
+ * {@link AbstractPropertyControl} for the long property.
+ *
+ * @author Ivan Senic
+ *
+ */
+public class IntegerPropertyControl extends AbstractPropertyControl<IntegerProperty, Integer> {
+
+	/**
+	 * Text to display long value.
+	 */
+	private Text text;
+
+	/**
+	 * Default constructor.
+	 *
+	 * @param property
+	 *            Property.
+	 * @param propertyUpdateListener
+	 *            Property update listener to report updates to.
+	 */
+	public IntegerPropertyControl(IntegerProperty property, IPropertyUpdateListener propertyUpdateListener) {
+		super(property, propertyUpdateListener);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Control createControl(Composite parent) {
+		text = new Text(parent, SWT.BORDER | SWT.RIGHT);
+		text.setText(NumberFormatter.formatLong(property.getValue()));
+		text.addVerifyListener(new VerifyListener() {
+			@Override
+			public void verifyText(VerifyEvent e) {
+				String oldText = text.getText();
+				String update = e.text;
+				String newText = oldText.substring(0, e.start) + update + oldText.substring(e.end, oldText.length());
+
+				// allow blank text
+				if (StringUtils.isNotBlank(newText)) {
+					// allow minus to be specified only
+					if ((1 == newText.length()) && ('-' == newText.charAt(0))) {
+						return;
+					}
+
+					// otherwise prove we have a valid long number
+					try {
+						Integer.parseInt(newText);
+					} catch (NumberFormatException exception) {
+						e.doit = false;
+						return;
+					}
+				}
+			}
+		});
+		text.addModifyListener(new ModifyListener() {
+			@Override
+			public void modifyText(ModifyEvent e) {
+				String valueText = text.getText();
+				if (!valueText.isEmpty() && ((valueText.charAt(0) != '-') || (valueText.length() > 1))) {
+					Integer value = Integer.parseInt(valueText);
+					sendPropertyUpdateEvent(value);
+				}
+			}
+		});
+		text.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				String valueText = text.getText();
+				if (valueText.isEmpty()) {
+					text.setText(NumberFormatter.formatInteger(getLastCorrectValue().intValue()));
+				}
+			}
+		});
+		return text;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected void showDefaultValue() {
+		text.setText(NumberFormatter.formatInteger(property.getDefaultValue().intValue()));
+	}
+}

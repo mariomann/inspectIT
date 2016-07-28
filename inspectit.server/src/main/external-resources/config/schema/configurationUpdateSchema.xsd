@@ -7,6 +7,10 @@
 
   <xs:element name="cmr-configuration-update" type="configurationUpdate"/>
 
+  <xs:element name="double-property-update" type="doublePropertyUpdate"/>
+
+  <xs:element name="integer-property-update" type="integerPropertyUpdate"/>
+
   <xs:element name="long-property-update" type="longPropertyUpdate"/>
 
   <xs:element name="percentage-property-update" type="percentagePropertyUpdate"/>
@@ -65,6 +69,24 @@
     </xs:complexContent>
   </xs:complexType>
 
+  <xs:complexType name="doublePropertyUpdate">
+    <xs:complexContent>
+      <xs:extension base="abstractPropertyUpdate">
+        <xs:sequence/>
+        <xs:attribute name="update-value" type="xs:double" use="required"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="integerPropertyUpdate">
+    <xs:complexContent>
+      <xs:extension base="abstractPropertyUpdate">
+        <xs:sequence/>
+        <xs:attribute name="update-value" type="xs:int" use="required"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
   <xs:complexType name="configurationUpdate">
     <xs:sequence>
       <xs:element name="updates" minOccurs="0">
@@ -76,6 +98,8 @@
               <xs:element ref="boolean-property-update"/>
               <xs:element ref="percentage-property-update"/>
               <xs:element ref="byte-property-update"/>
+              <xs:element ref="double-property-update"/>
+              <xs:element ref="integer-property-update"/>
               <xs:element ref="restore-default-property-update"/>
             </xs:choice>
           </xs:sequence>

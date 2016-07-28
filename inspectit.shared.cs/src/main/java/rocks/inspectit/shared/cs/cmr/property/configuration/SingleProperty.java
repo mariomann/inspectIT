@@ -16,6 +16,8 @@ import org.apache.commons.collections.CollectionUtils;
 
 import rocks.inspectit.shared.cs.cmr.property.configuration.impl.BooleanProperty;
 import rocks.inspectit.shared.cs.cmr.property.configuration.impl.ByteProperty;
+import rocks.inspectit.shared.cs.cmr.property.configuration.impl.DoubleProperty;
+import rocks.inspectit.shared.cs.cmr.property.configuration.impl.IntegerProperty;
 import rocks.inspectit.shared.cs.cmr.property.configuration.impl.LongProperty;
 import rocks.inspectit.shared.cs.cmr.property.configuration.impl.PercentageProperty;
 import rocks.inspectit.shared.cs.cmr.property.configuration.impl.StringProperty;
@@ -44,7 +46,7 @@ import rocks.inspectit.shared.cs.cmr.property.update.impl.RestoreDefaultProperty
  *            Type of the value property is defining.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlSeeAlso({ StringProperty.class, LongProperty.class, BooleanProperty.class, PercentageProperty.class, ByteProperty.class })
+@XmlSeeAlso({ StringProperty.class, LongProperty.class, BooleanProperty.class, PercentageProperty.class, ByteProperty.class, DoubleProperty.class, IntegerProperty.class })
 public abstract class SingleProperty<T> extends AbstractProperty {
 
 	/**
@@ -70,8 +72,8 @@ public abstract class SingleProperty<T> extends AbstractProperty {
 	 */
 	@XmlElementWrapper(name = "validators")
 	@XmlElementRefs({ @XmlElementRef(type = LessValidator.class), @XmlElementRef(type = LessOrEqualValidator.class), @XmlElementRef(type = GreaterValidator.class),
-			@XmlElementRef(type = GreaterOrEqualValidator.class), @XmlElementRef(type = PercentageValidator.class), @XmlElementRef(type = PositiveValidator.class),
-			@XmlElementRef(type = NegativeValidator.class), @XmlElementRef(type = FullyQualifiedClassNameValidator.class), @XmlElementRef(type = NotEmptyValidator.class) })
+		@XmlElementRef(type = GreaterOrEqualValidator.class), @XmlElementRef(type = PercentageValidator.class), @XmlElementRef(type = PositiveValidator.class),
+		@XmlElementRef(type = NegativeValidator.class), @XmlElementRef(type = FullyQualifiedClassNameValidator.class), @XmlElementRef(type = NotEmptyValidator.class) })
 	private List<ISinglePropertyValidator<? super T>> validators;
 
 	/**

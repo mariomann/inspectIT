@@ -161,7 +161,8 @@ public interface IStorageService {
 	 *             If storage is not opened, or the storage is currently used for recording. If
 	 *             write fails.
 	 */
-	void writeToStorage(StorageData storageData, Collection<DefaultData> defaultDataCollection, Collection<AbstractDataProcessor> dataProcessors, boolean synchronously) throws BusinessException;
+	void writeToStorage(StorageData storageData, Collection<? extends DefaultData> defaultDataCollection, Collection<AbstractDataProcessor> dataProcessors, boolean synchronously)
+			throws BusinessException;
 
 	/**
 	 * Copies the complete content of the buffer to the provided storage. The storage does not have
@@ -285,7 +286,7 @@ public interface IStorageService {
 	 * <p>
 	 * For example, if the CMR has the ip localhost and port 8080, the address for the file would
 	 * be: http://localhost:8080/directory/file.extension
-	 * 
+	 *
 	 * @param storageData
 	 *            Storage to get business context files for.
 	 * @return Returns the map of the string/long pairs that represent the path to the business

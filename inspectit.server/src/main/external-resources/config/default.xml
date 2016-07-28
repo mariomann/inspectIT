@@ -315,4 +315,70 @@
 			</group-property>
 		</properties>
 	</section>
+	<section name="Data Publishing Extensions">
+		<properties>
+			<group-property name="CoScale" description="Publishes measurement data to the CoScale SaaS Server.">
+				<properties>
+					<boolean-property name="Activate" default-value="false" server-restart-required="false" logical-name="cmr.data.extensions.coscale.active" advanced="false"
+						description="Activate CoScale extension.">
+					</boolean-property>
+					<string-property name="Access Token" default-value="token" server-restart-required="false" logical-name="cmr.data.extensions.coscale.token" advanced="false"
+						description="The CoScale access token.">
+						<validators>
+							<isNotEmpty />
+						</validators>
+					</string-property>
+					<string-property name="Application ID" default-value="id" server-restart-required="false" logical-name="cmr.data.extensions.coscale.appId" advanced="false"
+						description="The CoScale application ID.">
+						<validators>
+							<isNotEmpty />
+						</validators>
+					</string-property>
+					<boolean-property name="Write Timings" default-value="true" server-restart-required="false" logical-name="cmr.data.extensions.coscale.writeTimings" advanced="false"
+						description="If enabled, response times for business transactions are written as metrics to CoScale.">
+					</boolean-property>
+					<string-property name="Base URL" default-value="https://api.coscale.com" server-restart-required="false" logical-name="cmr.data.extensions.coscale.baseUrl" advanced="true"
+						description="The CoScale Base URL for the REST API.">
+						<validators>
+							<isNotEmpty />
+						</validators>
+					</string-property>
+					<integer-property name="Number of Invocations to Send" default-value="5" server-restart-required="false" logical-name="cmr.data.extensions.coscale.numInvocationsToSend" advanced="true"
+						description="The number of slowest invocation sequences to send to CoScale in case of an anomaly.">
+						<validators>
+							<isPositive />
+						</validators>
+					</integer-property>
+					<integer-property name="Aggregation Time Interval (min)" default-value="1" server-restart-required="false" logical-name="cmr.data.extensions.coscale.anomaly.interval" advanced="true"
+						description="Time interval in minutes used to aggregate response times for anomaly detection.">
+						<validators>
+							<isPositive />
+						</validators>
+					</integer-property>
+					<integer-property name="Minimal Anomaly Duration" default-value="3" server-restart-required="false" logical-name="cmr.data.extensions.coscale.anomaly.minAnomalyDuration" advanced="true"
+						description="Specifies when an anomaly should be detected as such. An anomaly is recognized only if the response times are anomal for the amount of time specified in this value (in minutes).">
+						<validators>
+							<isPositive />
+						</validators>
+					</integer-property>
+					<double-property name="Smoothing Factor" default-value="0.2" server-restart-required="false" logical-name="cmr.data.extensions.coscale.anomaly.smoothingFactor" advanced="true"
+						description="Smoothing Factor for the seasonal component of the double exponential smoothing.">
+						<validators>
+							<isGreaterOrEqual than="0.0" />
+							<isLessOrEqual than="1.0" />
+						</validators>
+					</double-property>
+					<double-property name="Trend Smoothing Factor" default-value="0.2" server-restart-required="false" logical-name="cmr.data.extensions.coscale.anomaly.trendSmoothingFactor" advanced="true"
+						description="Smoothing Factor for the trend component of the double exponential smoothing.">
+						<validators>
+							<isGreaterOrEqual than="0.0" />
+							<isLessOrEqual than="1.0" />
+						</validators>
+					</double-property>
+				</properties>
+				<group-validators>
+				</group-validators>
+			</group-property>
+		</properties>
+	</section>	
 </cmr-configuration>
