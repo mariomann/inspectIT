@@ -36,7 +36,7 @@ public class CoScaleBusinessTransactionData {
 	private int initializationCounter = 5;
 
 	public CoScaleBusinessTransactionData(String businessTxName, BusinessTransactionCoScaleMetrics btMetrics, double smoothingFactor, double trendSmoothingFactor, int numRawValuesToKeep,
-			int numSlowestInvocationsToKeep) {
+			int numSlowestInvocationsToKeep, int standardDevFactor) {
 		this.businessTxName = businessTxName;
 		slowestInvocationSequences = new LimitedSortedList<>(numSlowestInvocationsToKeep, new Comparator<InvocationSequenceData>() {
 
@@ -52,7 +52,7 @@ public class CoScaleBusinessTransactionData {
 				}
 			}
 		});
-		this.exponentialSmooting = new DoubleExponentialSmoothing(smoothingFactor, trendSmoothingFactor, numRawValuesToKeep);
+		this.exponentialSmooting = new DoubleExponentialSmoothing(smoothingFactor, trendSmoothingFactor, numRawValuesToKeep, standardDevFactor);
 		this.btMetrics = btMetrics;
 	}
 

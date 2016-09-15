@@ -375,6 +375,13 @@
 							<isLessOrEqual than="1.0" />
 						</validators>
 					</double-property>
+					<integer-property name="Standard Deviation Factor" default-value="3" server-restart-required="false" logical-name="cmr.data.extensions.coscale.anomaly.standardDevFactor" advanced="true"
+						description="Factor to multiply the standard deviation to get the BaseLineThreshold.">
+						<validators>
+							<isPositive />
+							<isLessOrEqual than="3" />
+						</validators>
+					</integer-property>
 				</properties>
 				<group-validators>
 				</group-validators>

@@ -25,6 +25,7 @@ import rocks.inspectit.shared.all.exception.BusinessException;
 import rocks.inspectit.shared.all.spring.logger.Log;
 import rocks.inspectit.shared.cs.ci.business.expression.IContainerExpression;
 import rocks.inspectit.shared.cs.ci.business.expression.impl.AndExpression;
+import rocks.inspectit.shared.cs.ci.business.expression.impl.BooleanExpression;
 import rocks.inspectit.shared.cs.ci.business.expression.impl.StringMatchingExpression;
 import rocks.inspectit.shared.cs.ci.business.impl.ApplicationDefinition;
 import rocks.inspectit.shared.cs.ci.business.impl.BusinessTransactionDefinition;
@@ -38,7 +39,7 @@ import rocks.inspectit.shared.cs.cmr.service.IConfigurationInterfaceService;
 /**
  * This Component is responsible for mapping CoScale request definitions to inspectIT's business
  * context definition.
- * 
+ *
  * @author Alexander Wert
  *
  */
@@ -228,6 +229,7 @@ public class CoScaleBusinessRequestMapper implements IPluginStateListener {
 
 		if (applicationDefinition == null) {
 			applicationDefinition = new ApplicationDefinition();
+			applicationDefinition.setMatchingRuleExpression(new BooleanExpression(true, true));
 			applicationDefinition.setApplicationName(coScaleApplication.name);
 			applicationDefinition = ciService.addApplicationDefinition(applicationDefinition);
 		}

@@ -119,6 +119,12 @@ public class CoScaleBusinessTransactionHandler implements Runnable, IPluginState
 	@Value(value = "${cmr.data.extensions.coscale.writeTimings}")
 	private boolean writeTimingsToCoScale;
 
+	/**
+	 * Factor to multiply the standard deviation to get the BaseLineThreshold.
+	 */
+	@Value(value = "${cmr.data.extensions.coscale.anomaly.standardDevFactor}")
+	private int standardDevFactor = 3;
+
 	@Value(value = "${cmr.data.extensions.coscale.anomaly.minAnomalyDuration}")
 	private int minAnomalyDuration;
 
@@ -142,9 +148,7 @@ public class CoScaleBusinessTransactionHandler implements Runnable, IPluginState
 	 */
 	@Override
 	public void run() {
-		log.debug("Periodic evaluation of anomaly...");
 		for (CoScaleBusinessTransactionData btData : businessTxData.values()) {
-			log.debug("BT: " + btData.getBusinessTxName());
 			if (btData.getCurrentResponseTimeCount() > 0) {
 				double meanResponseTime;
 				synchronized (this) {
@@ -152,16 +156,11 @@ public class CoScaleBusinessTransactionHandler implements Runnable, IPluginState
 					btData.setCurrentResponseTimeCount(0);
 					btData.setCurrentResponseTimeSum(0.0);
 				}
-				log.debug("init counter: " + btData.getInitializationCounter());
 				if (btData.getInitializationCounter() <= 0) {
-					log.debug("mean RT: " + meanResponseTime + "  Threshold: " + btData.getExponentialSmooting().getBaselineThreshold());
 					if (meanResponseTime > btData.getExponentialSmooting().getBaselineThreshold()) {
 						btData.getAnomaly().incrementAndGet();
-						log.debug("!!!!!!!!!!!!!!!!!!!!!!!! Anomaly detected, duration: " + btData.getAnomaly().get());
 					} else {
-						log.debug("!!!!!!!!!!!!!!!!!!!!!!!! Anomaly finished, duration: " + btData.getAnomaly().get());
 						if (btData.getAnomaly().get() >= minAnomalyDuration) {
-							log.debug("Sending anomaly data");
 							sendAsyncInvocationSequencesAsStorage(btData.getBusinessTxName(), btData.getSlowestInvocationSequences(), btData.getAnomaly().get() * timeInterval);
 						}
 						btData.getAnomaly().set(0);
@@ -201,7 +200,7 @@ public class CoScaleBusinessTransactionHandler implements Runnable, IPluginState
 			if (writeTimingsToCoScale) {
 				metrics = getBusinessTransactionMetrics(businessTxName);
 			}
-			CoScaleBusinessTransactionData data = new CoScaleBusinessTransactionData(businessTxName, metrics, smoothingFactor, trendSmoothingFactor, 100, numInvocationsToSend);
+			CoScaleBusinessTransactionData data = new CoScaleBusinessTransactionData(businessTxName, metrics, smoothingFactor, trendSmoothingFactor, 100, numInvocationsToSend, standardDevFactor);
 			businessTxData.put(businessTxId, data);
 		}
 		return businessTxData.get(businessTxId);
@@ -248,7 +247,6 @@ public class CoScaleBusinessTransactionHandler implements Runnable, IPluginState
 					StorageData storageData = null;
 					try {
 						storageData = createStorage(storageName, invocationSequencesCopied);
-						log.debug("Storage created");
 						BinaryData binData = wrapInBinaryData(fileName, storageData);
 
 						Event event = retreiveEventCategory();
@@ -259,14 +257,12 @@ public class CoScaleBusinessTransactionHandler implements Runnable, IPluginState
 						// attaching binary data to it.
 						Thread.sleep(1000);
 						plugin.getEventsApi().uploadBinary(event.id, eventData.id, binData);
-						log.debug("Storage sent");
 					} catch (Exception e) {
 						log.error("Failed sending storage to CoScale!", e);
 					} finally {
 						if (null != storageData) {
 							try {
 								storageManager.deleteStorage(storageData);
-								log.debug("Storage deleted");
 							} catch (IOException | BusinessException e) {
 								log.error("Failed deleting storage!", e);
 							}

@@ -19,6 +19,8 @@ public class DoubleExponentialSmoothing {
 	 */
 	private final double smoothingFactor;
 
+	private final int standardDevFactor;
+
 	/**
 	 * The trend smoothing factor.
 	 */
@@ -69,10 +71,11 @@ public class DoubleExponentialSmoothing {
 	 * @param numRawValuesToKeep
 	 *            The number of raw values to keep.
 	 */
-	public DoubleExponentialSmoothing(double smoothingFactor, double trendSmoothingFactor, int numRawValuesToKeep) {
+	public DoubleExponentialSmoothing(double smoothingFactor, double trendSmoothingFactor, int numRawValuesToKeep, int standardDevFactor) {
 		this.smoothingFactor = smoothingFactor;
 		this.trendSmoothingFactor = trendSmoothingFactor;
 		this.numRawValuesToKeep = numRawValuesToKeep;
+		this.standardDevFactor = standardDevFactor;
 		if (numRawValuesToKeep > 2) {
 			rawValues = new LinkedBlockingQueue<Double>(numRawValuesToKeep);
 		} else {
@@ -139,7 +142,7 @@ public class DoubleExponentialSmoothing {
 				StandardDeviation sd = new StandardDeviation();
 				double standardDev = sd.evaluate(toDoubleArray(getRawValues()));
 				double mean = getValue();
-				currentBaselineThreshold = mean + (1 * standardDev);
+				currentBaselineThreshold = mean + (standardDevFactor * standardDev);
 			} else {
 				currentBaselineThreshold = Double.MAX_VALUE;
 			}
